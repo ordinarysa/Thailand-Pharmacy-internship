@@ -20,9 +20,12 @@
   <div id="root"></div>
   <script>
 "use strict";
-// Expose React hooks globally (app was compiled with classic JSX runtime)
 const { useState, useCallback, useEffect } = React;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.
 In order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -74,6 +77,9 @@ var mkData = function mkData() {
     papers: [],
     cases: [],
     drugs: [],
+    soaps: [],
+    rotationGrades: {},
+    // rotationId -> { sliderScores:{work,teacher,...}, manualScore:null, note:"" }
     skills: [{
       id: 1,
       cat: "จ่ายยา",
@@ -141,6 +147,7 @@ var mkEntry = function mkEntry() {
   return {
     mood: 3,
     site: "hospital",
+    rotation: "ambu",
     scores: {
       work: 5,
       teacher: 5,
@@ -205,7 +212,78 @@ var SITES = [{
   color: "#FBBF24",
   bg: "#2D1F00"
 }];
-var MOODS = ["😩", "😔", "😐", "🙂", "😊", "😄"];
+var ROTATIONS = {
+  hospital: [{
+    id: "ambu",
+    label: "Ambu",
+    color: "#34D399"
+  }, {
+    id: "med1",
+    label: "Med1",
+    color: "#60A5FA"
+  }, {
+    id: "adr",
+    label: "ADR",
+    color: "#F87171"
+  }, {
+    id: "msms",
+    label: "MSMS",
+    color: "#FBBF24"
+  }],
+  pharmacy: [{
+    id: "com1",
+    label: "COM1",
+    color: "#A78BFA"
+  }],
+  pharma: [{
+    id: "cra1",
+    label: "CRA1",
+    color: "#FB923C"
+  }, {
+    id: "cra2",
+    label: "CRA2",
+    color: "#E879F9"
+  }]
+};
+var ALL_ROTATIONS = Object.values(ROTATIONS).flat();
+var GRADE_SCALE = [{
+  grade: "A",
+  min: 80,
+  color: "#34D399"
+}, {
+  grade: "B+",
+  min: 75,
+  color: "#60A5FA"
+}, {
+  grade: "B",
+  min: 70,
+  color: "#60A5FA"
+}, {
+  grade: "C+",
+  min: 65,
+  color: "#FBBF24"
+}, {
+  grade: "C",
+  min: 60,
+  color: "#FBBF24"
+}, {
+  grade: "D+",
+  min: 55,
+  color: "#F87171"
+}, {
+  grade: "D",
+  min: 50,
+  color: "#F87171"
+}, {
+  grade: "F",
+  min: 0,
+  color: "#EF4444"
+}];
+var getGrade = function getGrade(score) {
+  return GRADE_SCALE.find(function (g) {
+    return score >= g.min;
+  }) || GRADE_SCALE[GRADE_SCALE.length - 1];
+};
 var MLABEL = ["หนักมาก", "เหนื่อย", "โอเค", "ดี", "ดีมาก", "ยอดเยี่ยม"];
 var TIMES = ["07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"];
 var DOWTH = ["จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส.", "อา."];
@@ -268,13 +346,13 @@ function App() {
     icon: "📅",
     lbl: "วันนี้"
   }, {
-    k: "schedule",
-    icon: "🗓️",
-    lbl: "ตาราง"
+    k: "grades",
+    icon: "🏆",
+    lbl: "คะแนน"
   }, {
-    k: "teachers",
-    icon: "👩‍🏫",
-    lbl: "อาจารย์"
+    k: "soap",
+    icon: "🩺",
+    lbl: "SOAP"
   }, {
     k: "guide",
     icon: "📋",
@@ -404,6 +482,14 @@ function App() {
     setEntry: setEntry,
     date: date,
     setDate: setDate,
+    activeSite: activeSite
+  }), tab === "grades" && /*#__PURE__*/React.createElement(TabGrades, {
+    data: data,
+    update: update,
+    activeSite: activeSite
+  }), tab === "soap" && /*#__PURE__*/React.createElement(TabSOAP, {
+    data: data,
+    update: update,
     activeSite: activeSite
   }), tab === "schedule" && /*#__PURE__*/React.createElement(TabSchedule, {
     data: data,
@@ -1417,6 +1503,11 @@ function TabToday(_ref19) {
   var curSite = SITES.find(function (s) {
     return s.id === (entry.site || "hospital");
   });
+  var siteRotations = ROTATIONS[entry.site || "hospital"] || ROTATIONS.hospital;
+  var curRotation = ALL_ROTATIONS.find(function (r) {
+    var _siteRotations$;
+    return r.id === (entry.rotation || ((_siteRotations$ = siteRotations[0]) === null || _siteRotations$ === void 0 ? void 0 : _siteRotations$.id));
+  });
   return /*#__PURE__*/React.createElement("div", {
     style: S.tab,
     className: "fi"
@@ -1518,7 +1609,55 @@ function TabToday(_ref19) {
         fontSize: 18
       }
     }, s.icon), /*#__PURE__*/React.createElement("span", null, s.label));
-  }))), /*#__PURE__*/React.createElement(Card, {
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "#4B5563",
+      fontWeight: 600,
+      marginBottom: 6
+    }
+  }, "\u0E1C\u0E25\u0E31\u0E14\u0E17\u0E35\u0E48\u0E1D\u0E36\u0E01"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6,
+      flexWrap: "wrap"
+    }
+  }, siteRotations.map(function (r) {
+    var _siteRotations$2, _siteRotations$3, _siteRotations$4;
+    return /*#__PURE__*/React.createElement("button", {
+      key: r.id,
+      onClick: function onClick() {
+        return setEntry(function (e) {
+          return _objectSpread(_objectSpread({}, e), {}, {
+            rotation: r.id
+          });
+        });
+      },
+      style: {
+        padding: "6px 14px",
+        borderRadius: 99,
+        fontSize: 12,
+        fontWeight: 700,
+        cursor: "pointer",
+        fontFamily: "inherit",
+        border: "1px solid ".concat((entry.rotation || ((_siteRotations$2 = siteRotations[0]) === null || _siteRotations$2 === void 0 ? void 0 : _siteRotations$2.id)) === r.id ? r.color : "#1C2433"),
+        background: (entry.rotation || ((_siteRotations$3 = siteRotations[0]) === null || _siteRotations$3 === void 0 ? void 0 : _siteRotations$3.id)) === r.id ? r.color + "22" : "transparent",
+        color: (entry.rotation || ((_siteRotations$4 = siteRotations[0]) === null || _siteRotations$4 === void 0 ? void 0 : _siteRotations$4.id)) === r.id ? r.color : "#4B5563",
+        transition: "all .15s"
+      }
+    }, r.label);
+  })), curRotation && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: curRotation.color,
+      marginTop: 5,
+      fontFamily: "IBM Plex Mono"
+    }
+  }, "\u25CF ", curSite === null || curSite === void 0 ? void 0 : curSite.label, " \xB7 ", curRotation.label)), /*#__PURE__*/React.createElement(Card, {
     title: "\uD83C\uDF21\uFE0F \u0E2D\u0E32\u0E23\u0E21\u0E13\u0E4C"
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -1723,17 +1862,1269 @@ function TabToday(_ref19) {
   })));
 }
 
-// ─── SCHEDULE ────────────────────────────────────────────────────
-function TabSchedule(_ref20) {
+// ─── GRADES ──────────────────────────────────────────────────────
+function TabGrades(_ref20) {
   var data = _ref20.data,
     update = _ref20.update,
-    date = _ref20.date,
-    setDate = _ref20.setDate,
     activeSite = _ref20.activeSite;
-  var _useState11 = useState(null),
+  var curSite = SITES.find(function (s) {
+    return s.id === activeSite;
+  });
+
+  // which rotations to show
+  var visibleSites = activeSite === "all" ? SITES.map(function (s) {
+    return s.id;
+  }) : [activeSite];
+  var visibleRots = visibleSites.flatMap(function (sid) {
+    return (ROTATIONS[sid] || []).map(function (r) {
+      return _objectSpread(_objectSpread({}, r), {}, {
+        siteId: sid
+      });
+    });
+  });
+  var getRotGrade = function getRotGrade(rotId) {
+    var _data$rotationGrades;
+    return ((_data$rotationGrades = data.rotationGrades) === null || _data$rotationGrades === void 0 ? void 0 : _data$rotationGrades[rotId]) || {
+      sliderScores: {
+        work: 5,
+        teacher: 5,
+        social: 5,
+        skill: 5,
+        mental: 5,
+        knowledge: 5
+      },
+      manualScore: null,
+      note: ""
+    };
+  };
+  var calcSliderTotal = function calcSliderTotal(sliderScores) {
+    var vals = Object.values(sliderScores);
+    // scale 6 sliders (1-10 each) → 0-100
+    return Math.round(vals.reduce(function (a, b) {
+      return a + b;
+    }, 0) / (vals.length * 10) * 100);
+  };
+  var setRotGrade = function setRotGrade(rotId, patch) {
+    update(function (d) {
+      if (!d.rotationGrades) d.rotationGrades = {};
+      d.rotationGrades[rotId] = _objectSpread(_objectSpread({}, getRotGrade(rotId)), patch);
+      return d;
+    });
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: S.tab,
+    className: "fi"
+  }, curSite && /*#__PURE__*/React.createElement(SiteBanner, {
+    site: curSite
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8,
+      overflowX: "auto",
+      marginBottom: 16,
+      paddingBottom: 2
+    }
+  }, visibleRots.map(function (rot) {
+    var g = getRotGrade(rot.id);
+    var slider = calcSliderTotal(g.sliderScores);
+    var final = g.manualScore !== null ? g.manualScore : slider;
+    var gd = getGrade(final);
+    var site = SITES.find(function (s) {
+      return s.id === rot.siteId;
+    });
+    return /*#__PURE__*/React.createElement("div", {
+      key: rot.id,
+      style: {
+        flexShrink: 0,
+        minWidth: 100,
+        background: "#161D27",
+        border: "1px solid ".concat(rot.color, "30"),
+        borderRadius: 14,
+        padding: "12px 10px",
+        textAlign: "center"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: (site === null || site === void 0 ? void 0 : site.color) || "#6B7280",
+        fontWeight: 600,
+        marginBottom: 3
+      }
+    }, site === null || site === void 0 ? void 0 : site.label), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        fontWeight: 700,
+        color: rot.color,
+        marginBottom: 4
+      }
+    }, rot.label), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 28,
+        fontWeight: 900,
+        color: gd.color,
+        fontFamily: "IBM Plex Mono",
+        lineHeight: 1
+      }
+    }, gd.grade), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 18,
+        fontWeight: 700,
+        color: "#F3F4F6",
+        fontFamily: "IBM Plex Mono",
+        marginTop: 2
+      }
+    }, final), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: "#4B5563",
+        marginTop: 2
+      }
+    }, "/ 100"));
+  })), visibleRots.map(function (rot) {
+    var _g$manualScore;
+    var g = getRotGrade(rot.id);
+    var slider = calcSliderTotal(g.sliderScores);
+    var final = g.manualScore !== null ? g.manualScore : slider;
+    var gd = getGrade(final);
+    var site = SITES.find(function (s) {
+      return s.id === rot.siteId;
+    });
+    return /*#__PURE__*/React.createElement(Card, {
+      key: rot.id,
+      title: /*#__PURE__*/React.createElement("div", {
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center"
+        }
+      }, /*#__PURE__*/React.createElement("span", {
+        style: {
+          color: rot.color
+        }
+      }, rot.label, " ", /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontSize: 11,
+          color: "#4B5563"
+        }
+      }, "\xB7 ", site === null || site === void 0 ? void 0 : site.label)), /*#__PURE__*/React.createElement("div", {
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: 8
+        }
+      }, /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontSize: 22,
+          fontWeight: 900,
+          color: gd.color,
+          fontFamily: "IBM Plex Mono"
+        }
+      }, gd.grade), /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontSize: 18,
+          fontWeight: 700,
+          fontFamily: "IBM Plex Mono",
+          color: "#F3F4F6"
+        }
+      }, final, "/100")))
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginBottom: 12
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: "#4B5563",
+        fontWeight: 600,
+        marginBottom: 8
+      }
+    }, "\u0E04\u0E30\u0E41\u0E19\u0E19 Slider (\u0E1B\u0E23\u0E31\u0E1A\u0E44\u0E14\u0E49 1\u201310 \u0E15\u0E48\u0E2D\u0E21\u0E34\u0E15\u0E34 \u2192 \u0E23\u0E27\u0E21\u0E40\u0E1B\u0E47\u0E19 /100)"), DIMS.map(function (d) {
+      return /*#__PURE__*/React.createElement("div", {
+        key: d.key,
+        style: {
+          marginBottom: 8
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          fontSize: 12,
+          marginBottom: 3
+        }
+      }, /*#__PURE__*/React.createElement("span", null, d.icon, " ", d.label), /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontFamily: "IBM Plex Mono",
+          color: d.color,
+          fontWeight: 700
+        }
+      }, g.sliderScores[d.key], "/10")), /*#__PURE__*/React.createElement("input", {
+        type: "range",
+        min: 1,
+        max: 10,
+        value: g.sliderScores[d.key],
+        onChange: function onChange(e) {
+          return setRotGrade(rot.id, {
+            sliderScores: _objectSpread(_objectSpread({}, g.sliderScores), {}, _defineProperty({}, d.key, +e.target.value))
+          });
+        },
+        style: {
+          width: "100%",
+          background: "linear-gradient(90deg,".concat(d.color, " ").concat(g.sliderScores[d.key] * 10, "%,#1C2433 ").concat(g.sliderScores[d.key] * 10, "%)")
+        }
+      }));
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "right",
+        fontSize: 12,
+        color: "#6B7280",
+        marginTop: 4
+      }
+    }, "Slider total: ", /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontFamily: "IBM Plex Mono",
+        color: "#F3F4F6",
+        fontWeight: 700
+      }
+    }, slider, "/100"))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginBottom: 12
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: "#4B5563",
+        fontWeight: 600,
+        marginBottom: 6
+      }
+    }, "\u0E04\u0E30\u0E41\u0E19\u0E19\u0E08\u0E23\u0E34\u0E07 (\u0E01\u0E23\u0E2D\u0E01\u0E40\u0E2D\u0E07\u0E44\u0E14\u0E49 \u2014 \u0E16\u0E49\u0E32\u0E01\u0E23\u0E2D\u0E01\u0E08\u0E30\u0E43\u0E0A\u0E49\u0E41\u0E17\u0E19 slider)"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 8,
+        alignItems: "center"
+      }
+    }, /*#__PURE__*/React.createElement("input", {
+      type: "number",
+      min: 0,
+      max: 100,
+      value: (_g$manualScore = g.manualScore) !== null && _g$manualScore !== void 0 ? _g$manualScore : "",
+      placeholder: "\u2014",
+      onChange: function onChange(e) {
+        var v = e.target.value === "" ? null : Math.min(100, Math.max(0, +e.target.value));
+        setRotGrade(rot.id, {
+          manualScore: v
+        });
+      },
+      style: _objectSpread(_objectSpread({}, S.inp), {}, {
+        width: 100,
+        fontFamily: "IBM Plex Mono",
+        fontSize: 24,
+        fontWeight: 700,
+        textAlign: "center",
+        color: gd.color,
+        padding: "10px"
+      })
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        color: "#4B5563",
+        marginBottom: 4
+      }
+    }, "Grade"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 4,
+        flexWrap: "wrap"
+      }
+    }, GRADE_SCALE.map(function (gs) {
+      return /*#__PURE__*/React.createElement("button", {
+        key: gs.grade,
+        onClick: function onClick() {
+          return setRotGrade(rot.id, {
+            manualScore: gs.min === 0 ? 49 : gs.min
+          });
+        },
+        style: {
+          padding: "4px 8px",
+          borderRadius: 8,
+          fontSize: 12,
+          fontWeight: 700,
+          cursor: "pointer",
+          fontFamily: "inherit",
+          border: "1px solid ".concat(gd.grade === gs.grade ? gs.color : "#1C2433"),
+          background: gd.grade === gs.grade ? gs.color + "22" : "transparent",
+          color: gd.grade === gs.grade ? gs.color : "#4B5563"
+        }
+      }, gs.grade);
+    })))), g.manualScore !== null && /*#__PURE__*/React.createElement("button", {
+      onClick: function onClick() {
+        return setRotGrade(rot.id, {
+          manualScore: null
+        });
+      },
+      style: {
+        marginTop: 6,
+        fontSize: 11,
+        color: "#4B5563",
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+        fontFamily: "inherit"
+      }
+    }, "\u21A9 \u0E43\u0E0A\u0E49\u0E04\u0E30\u0E41\u0E19\u0E19 slider \u0E41\u0E17\u0E19")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: "#4B5563",
+        fontWeight: 600,
+        marginBottom: 4
+      }
+    }, "\u0E2B\u0E21\u0E32\u0E22\u0E40\u0E2B\u0E15\u0E38 / \u0E2A\u0E34\u0E48\u0E07\u0E17\u0E35\u0E48\u0E40\u0E23\u0E35\u0E22\u0E19\u0E23\u0E39\u0E49\u0E08\u0E32\u0E01\u0E1C\u0E25\u0E31\u0E14\u0E19\u0E35\u0E49"), /*#__PURE__*/React.createElement("textarea", {
+      value: g.note,
+      onChange: function onChange(e) {
+        return setRotGrade(rot.id, {
+          note: e.target.value
+        });
+      },
+      placeholder: "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E2A\u0E34\u0E48\u0E07\u0E2A\u0E33\u0E04\u0E31\u0E0D\u0E08\u0E32\u0E01\u0E1C\u0E25\u0E31\u0E14 ".concat(rot.label, "\u2026"),
+      style: _objectSpread(_objectSpread({}, S.inp), {}, {
+        height: 70,
+        resize: "vertical",
+        fontSize: 12
+      })
+    }));
+  }));
+}
+
+// ─── SOAP CASE ────────────────────────────────────────────────────
+// Built-in disease SOAP templates
+var SOAP_DB = {
+  "heart failure": {
+    en: "Heart Failure",
+    th: "หัวใจวาย / Heart Failure",
+    s: "- อาการหอบเหนื่อย (dyspnea) โดยเฉพาะ orthopnea, PND
+- บวมขา (peripheral edema)
+- อ่อนเพลีย เหนื่อยง่าย
+- น้ำหนักขึ้นเร็ว (>2 kg/week)
+- ไอเรื้อรัง (โดยเฉพาะกลางคืน)",
+    o: "- Vital signs: BP, HR, RR, SpO₂
+- Weight, JVP
+- Chest X-ray: cardiomegaly, pulmonary edema
+- Echo: EF (HFrEF <40%, HFmrEF 40-49%, HFpEF ≥50%)
+- BNP/NT-proBNP
+- Labs: BMP, CBC, LFT, TFT
+- ECG",
+    a: "- ประเมิน NYHA class (I–IV)
+- ระบุ etiology: ischemic, hypertensive, valvular, idiopathic
+- ระบุ precipitating factors: ACS, infection, medication non-compliance, arrhythmia
+- ประเมิน volume status: hypervolemic/euvolemic/hypovolemic",
+    p: "**Pharmacotherapy (HFrEF):**
+- ACEi/ARB/ARNI (e.g., Enalapril, Sacubitril/Valsartan)
+- Beta-blocker (Carvedilol, Bisoprolol, Metoprolol succinate)
+- MRA (Spironolactone/Eplerenone) if eGFR adequate
+- SGLT2i (Dapagliflozin/Empagliflozin)
+- Loop diuretic (Furosemide) for congestion
+**Monitoring:**
+- BP, HR, renal function, electrolytes
+- Daily weight, fluid balance
+- S/S congestion regression
+**Patient counseling:**
+- Low-sodium diet (<2g/day), fluid restriction
+- Daily weight monitoring
+- Medication adherence
+- Vaccination (influenza, pneumococcal)"
+  },
+  "hypertension": {
+    en: "Hypertension",
+    th: "ความดันโลหิตสูง",
+    s: "- ส่วนใหญ่ไม่มีอาการ (asymptomatic)
+- อาจมี headache (occipital), dizziness, epistaxis
+- ถ้า hypertensive urgency/emergency: severe headache, visual changes, chest pain",
+    o: "- BP (ทั้งสองข้าง, 2 ครั้ง ห่างกัน 1–2 นาที)
+- HR, BMI, waist circumference
+- Fundoscopy: AV nicking, papilledema
+- Labs: BMP (K, Cr, eGFR), UA, lipid profile, FBS, ECG
+- Echo ถ้าสงสัย LVH",
+    a: "- Stage: Elevated (120-129/<80), Stage 1 (130-139/80-89), Stage 2 (≥140/≥90)
+- ระบุ primary vs secondary HTN
+- ประเมิน CVD risk, target organ damage
+- ระบุ compelling indications (DM, CKD, HF, post-MI)",
+    p: "**First-line agents:**
+- Thiazide diuretic (HCTZ, Chlorthalidone)
+- CCB (Amlodipine)
+- ACEi (Enalapril) / ARB (Losartan)
+**Compelling indications:**
+- DM: ACEi/ARB
+- HF: ACEi+BB+MRA
+- CKD+proteinuria: ACEi/ARB
+- Post-MI: ACEi+BB
+**Monitoring:**
+- BP ทุก 1–3 เดือนจนได้ target
+- Target: <130/80 mmHg (general), <140/90 (high risk)
+- Renal function, electrolytes
+**Counseling:**
+- DASH diet, exercise ≥150 min/week
+- Low sodium (<2.3g/day), weight reduction
+- Limit alcohol, smoking cessation"
+  },
+  "diabetes mellitus": {
+    en: "Diabetes Mellitus Type 2",
+    th: "เบาหวานชนิดที่ 2",
+    s: "- polyuria, polydipsia, polyphagia, weight loss
+- อาจไม่มีอาการ ตรวจพบจาก screening
+- อาการแทรกซ้อน: visual changes, numbness/tingling (neuropathy), wound healing",
+    o: "- FPG, 2h-OGTT, HbA1c, random glucose
+- BP, BMI, waist circumference
+- Lipid profile, renal function (eGFR, UACR)
+- Foot exam, fundoscopy
+- ECG",
+    a: "- Confirm diagnosis: FPG ≥126, 2h-OGTT ≥200, HbA1c ≥6.5%, random ≥200+symptoms
+- ประเมิน complication: retinopathy, nephropathy, neuropathy, CVD
+- Evaluate comorbidities: HTN, dyslipidemia, obesity
+- ประเมิน hypoglycemia risk",
+    p: "**Pharmacotherapy:**
+- 1st line: Metformin (เริ่ม 500mg OD-BID, เพิ่มถึง 2000mg/day)
+- Add-on by comorbidity:
+  · CVD/high CVD risk: SGLT2i หรือ GLP-1 RA
+  · HF: SGLT2i (Dapagliflozin, Empagliflozin)
+  · CKD: SGLT2i
+  · Weight loss: GLP-1 RA (Semaglutide, Liraglutide)
+- Insulin ถ้า HbA1c สูงมาก หรือ symptomatic hyperglycemia
+**Monitoring:**
+- HbA1c ทุก 3 เดือน (target <7% ทั่วไป)
+- FPG, 2hPPG
+- BP target <130/80
+- LDL <70 mg/dL (high risk)
+- Renal function, UACR ปีละครั้ง
+**Counseling:**
+- SMBG technique
+- Hypoglycemia recognition & management
+- Foot care, diet, exercise"
+  },
+  "pneumonia": {
+    en: "Community-Acquired Pneumonia",
+    th: "ปอดอักเสบ (CAP)",
+    s: "- ไข้, หนาวสั่น
+- ไอ (มีหรือไม่มีเสมหะ)
+- เจ็บหน้าอก (pleuritic)
+- หอบเหนื่อย
+- อ่อนเพลีย ปวดเมื่อย",
+    o: "- Vital signs: fever, tachycardia, tachypnea, hypoxia (SpO₂)
+- Chest exam: dullness, bronchial breath sounds, crackles
+- CXR: consolidation, infiltrate
+- Labs: CBC (leukocytosis), CRP, PCT, BMP
+- Sputum C/S, blood culture (ถ้า severe)
+- PSI/PORT score หรือ CURB-65",
+    a: "- Severity: mild (outpatient), moderate (ward), severe (ICU) ตาม CURB-65
+- Typical vs atypical organisms
+- Risk factors: age, comorbidities, prior antibiotics
+- Complications: empyema, bacteremia, respiratory failure",
+    p: "**Outpatient (mild):**
+- Amoxicillin 500mg TID 5–7 วัน
+- หรือ Azithromycin (atypical coverage)
+**Inpatient (moderate):**
+- Beta-lactam + Macrolide (Amoxicillin-clavulanate + Azithromycin)
+- หรือ Respiratory fluoroquinolone (Levofloxacin)
+**Severe/ICU:**
+- Beta-lactam + Azithromycin/Fluoroquinolone
+- Add anti-MRSA ถ้าสงสัย MRSA
+**Monitoring:**
+- Temp, WBC, CRP trend
+- SpO₂, RR
+- Clinical improvement ใน 48–72h
+**Counseling:**
+- Complete antibiotic course
+- Vaccination: influenza, pneumococcal
+- Rest, hydration, smoking cessation"
+  },
+  "sepsis": {
+    en: "Sepsis",
+    th: "ภาวะติดเชื้อในกระแสเลือด",
+    s: "- ไข้สูง หรือ hypothermia
+- หนาวสั่น ripping
+- ความดันต่ำ
+- ซึมลง สับสน
+- Suspected/confirmed infection source",
+    o: "- Vital: fever/hypothermia, tachycardia (HR>90), tachypnea (RR>20), hypotension (SBP<90)
+- Mental status change
+- Sepsis-3: SOFA score ≥2
+- qSOFA: RR≥22, AMS, SBP≤100 (≥2 = high risk)
+- Labs: lactate, CBC, BMP, LFT, coagulation, blood C/S x2
+- Source workup: CXR, UA/UC, wound C/S",
+    a: "- Sepsis vs Septic Shock (MAP<65 + vasopressor + lactate>2)
+- ระบุ suspected source: pneumonia, UTI, abdominal, skin
+- Organ dysfunction assessment
+- Risk factors: immunocompromised, recent procedure",
+    p: "**Hour-1 Bundle (Sepsis-3):**
+1. Measure lactate
+2. Blood cultures x2 ก่อน antibiotic
+3. Broad-spectrum antibiotics ทันที
+4. IVF 30 mL/kg crystalloid ถ้า hypotensive/lactate≥4
+5. Vasopressor (Norepinephrine) ถ้า MAP<65 หลัง fluid
+**Antibiotics:**
+- Empirical: Piperacillin-tazobactam ± Vancomycin
+- De-escalate เมื่อได้ C/S result
+- Duration: 7–10 วัน
+**Monitoring:**
+- MAP target ≥65 mmHg
+- Urine output >0.5 mL/kg/h
+- Lactate clearance (repeat ใน 2–4h)
+- Daily SOFA, organ function"
+  },
+  "uti": {
+    en: "Urinary Tract Infection",
+    th: "การติดเชื้อทางเดินปัสสาวะ",
+    s: "- Uncomplicated: dysuria, frequency, urgency, hematuria
+- Pyelonephritis: fever, chills, flank pain, N/V
+- ผู้สูงอายุ: อาจมีแค่ altered mental status",
+    o: "- Vital signs, CVA tenderness
+- UA: pyuria (WBC>5/hpf), bacteriuria, nitrite, leukocyte esterase
+- Urine C/S + sensitivity
+- CBC, BMP ถ้า complicated/pyelonephritis",
+    a: "- Uncomplicated cystitis vs complicated UTI vs pyelonephritis
+- Risk factors: female, DM, catheter, structural abnormality, immunocompromised
+- Pregnancy-related UTI: treat ทุกราย
+- Asymptomatic bacteriuria: treat เฉพาะ pregnant, pre-urologic procedure",
+    p: "**Uncomplicated cystitis (women):**
+- Nitrofurantoin 100mg BID x 5 วัน
+- หรือ TMP-SMX DS BID x 3 วัน (ถ้า resistance ต่ำ)
+- หรือ Fosfomycin 3g single dose
+**Pyelonephritis:**
+- Outpatient: Ciprofloxacin 500mg BID x 7 วัน
+- Inpatient: Ceftriaxone 1–2g IV OD
+**Monitoring:**
+- Symptom resolution ใน 48–72h
+- UA/UC follow-up (ถ้า pregnant หรือ complicated)
+- Renal function ถ้า severe
+**Counseling:**
+- Hydration
+- Hygiene (wipe front to back)
+- Void after intercourse
+- Complete antibiotic course"
+  },
+  "copd": {
+    en: "COPD",
+    th: "โรคปอดอุดกั้นเรื้อรัง (COPD)",
+    s: "- Chronic cough, sputum production
+- Dyspnea (progressive, worse with exertion)
+- Wheezing
+- Exacerbation: acute worsening of symptoms
+- ประวัติสูบบุหรี่ / occupational exposure",
+    o: "- Spirometry: FEV₁/FVC <0.70 post-bronchodilator
+- FEV₁ % predicted (GOLD staging)
+- Vital: SpO₂, RR
+- CXR: hyperinflation, flat diaphragm
+- ABG ถ้า severe/exacerbation
+- CBC, sputum C/S (exacerbation)",
+    a: "- GOLD stage: I (FEV₁≥80%), II (50-79%), III (30-49%), IV (<30%)
+- GOLD group: A/B ตาม symptoms & exacerbation history
+- Stable vs acute exacerbation (AECOPD)
+- Comorbidities: HF, sleep apnea, osteoporosis",
+    p: "**Stable COPD:**
+- SABA PRN (Salbutamol) ทุกราย
+- Add LAMA (Tiotropium) หรือ LABA ตาม group
+- ICS+LABA ถ้า exacerbation + eosinophil สูง
+**AECOPD:**
+- SABA+SAMA nebulization
+- Prednisolone 40mg OD x 5 วัน
+- Antibiotic ถ้า purulent sputum (Amoxicillin/Azithromycin)
+- Controlled O₂ therapy: target SpO₂ 88–92%
+**Monitoring:**
+- FEV₁ ปีละครั้ง
+- SpO₂, exacerbation frequency
+- Inhaler technique reassessment
+**Counseling:**
+- Smoking cessation (สำคัญที่สุด)
+- Inhaler technique
+- Pulmonary rehabilitation
+- Vaccination"
+  },
+  "stroke": {
+    en: "Ischemic Stroke",
+    th: "โรคหลอดเลือดสมอง (Ischemic Stroke)",
+    s: "- FAST: Face drooping, Arm weakness, Speech difficulty, Time to call
+- Sudden onset neurological deficit
+- Headache ถ้า hemorrhagic component
+- ประวัติ AF, HTN, DM, smoking, prior TIA/stroke",
+    o: "- Vital signs, cardiac exam (AF?)
+- Neurological exam: NIHSS score
+- CT brain non-contrast (ก่อน thrombolysis)
+- MRI brain (DWI) ถ้าทำได้
+- ECG, Echo, carotid duplex
+- Labs: CBC, coagulation, glucose, lipid profile",
+    a: "- Ischemic vs hemorrhagic (CT ยืนยัน)
+- Time of onset (window for thrombolysis <4.5h)
+- NIHSS severity: mild <5, moderate 5-15, severe >15
+- Etiology: cardioembolic (AF), large vessel, lacunar, cryptogenic
+- Contraindications to tPA",
+    p: "**Acute management:**
+- Alteplase (tPA) 0.9 mg/kg IV (max 90mg) ถ้า <4.5h onset + ไม่มี CI
+- Mechanical thrombectomy ถ้า large vessel occlusion <24h
+- Aspirin 300mg (ถ้าไม่ได้ tPA) ใน 24h
+- BP management: <185/110 ก่อน tPA, <220/120 ถ้าไม่ thrombolyze
+- Statin: Atorvastatin 40-80mg
+**Secondary prevention:**
+- Antiplatelet: Aspirin 81-100mg + Clopidogrel x21 วัน (high-risk TIA/minor stroke)
+- Anticoagulation ถ้า AF: DOAC > Warfarin
+- Antihypertensive: target <130/80
+**Monitoring:**
+- Neurological status, NIHSS
+- Bleeding complications (post-tPA)
+- Swallowing assessment
+**Counseling:**
+- Risk factor control: BP, DM, AF, smoking
+- Rehabilitation: PT, OT, speech therapy
+- Medication adherence"
+  },
+  "atrial fibrillation": {
+    en: "Atrial Fibrillation",
+    th: "หัวใจเต้นผิดจังหวะชนิด Atrial Fibrillation",
+    s: "- ใจสั่น (palpitation)
+- เหนื่อยง่าย, dyspnea
+- Dizziness, presyncope
+- อาจไม่มีอาการ (silent AF)
+- ประวัติ stroke, HTN, HF, valvular disease",
+    o: "- Pulse: irregular irregular
+- Vital: BP, HR
+- ECG: absent P waves, irregularly irregular RR intervals
+- Echo: LV function, valvular disease, LA size, thrombus
+- Labs: TFT, CBC, BMP, coagulation
+- CHA₂DS₂-VASc, HAS-BLED scores",
+    a: "- Paroxysmal (<7d) vs Persistent (>7d) vs Long-standing persistent vs Permanent
+- Rate vs Rhythm control strategy
+- Thromboembolic risk: CHA₂DS₂-VASc score
+- Bleeding risk: HAS-BLED score
+- Cause: thyrotoxicosis, valvular, hypertensive, lone AF",
+    p: "**Rate control (target HR <110 bpm rest):**
+- Beta-blocker (Metoprolol, Bisoprolol)
+- Non-DHP CCB (Diltiazem, Verapamil) ถ้าไม่มี HFrEF
+- Digoxin (กรณี HF + sedentary)
+**Rhythm control:**
+- Cardioversion (electrical/chemical)
+- Antiarrhythmics: Amiodarone, Flecainide, Propafenone
+- Catheter ablation
+**Anticoagulation:**
+- CHA₂DS₂-VASc ≥2 (ชาย) / ≥3 (หญิง): anticoagulate
+- DOAC preferred: Rivaroxaban, Apixaban, Dabigatran
+- Warfarin ถ้า moderate-severe mitral stenosis หรือ mechanical valve
+**Monitoring:**
+- HR, rhythm
+- INR ถ้าใช้ Warfarin (target 2–3)
+- Renal function (DOAC dose adjustment)
+- Bleeding S/S
+**Counseling:**
+- ความสำคัญของ anticoagulation
+- Drug interactions (Warfarin)
+- Trigger avoidance: alcohol, caffeine"
+  },
+  "ckd": {
+    en: "Chronic Kidney Disease",
+    th: "โรคไตเรื้อรัง (CKD)",
+    s: "- ระยะต้น: asymptomatic
+- ระยะท้าย: fatigue, anorexia, N/V, edema, pruritus
+- Uremia: altered mental status, pericarditis
+- ประวัติ DM, HTN, NSAIDs, contrast exposure",
+    o: "- BP (HTN เป็นทั้ง cause และ complication)
+- Edema, volume status
+- Labs: serum Cr, eGFR, BUN, electrolytes
+- UA: proteinuria (UACR), hematuria, casts
+- CBC (anemia)
+- PTH, Ca, Phosphorus, Vit D
+- Renal ultrasound",
+    a: "- CKD Stage ตาม GFR: G1(≥90), G2(60-89), G3a(45-59), G3b(30-44), G4(15-29), G5(<15)
+- Albuminuria: A1(<30), A2(30-300), A3(>300) mg/g
+- Etiology: diabetic nephropathy, hypertensive nephrosclerosis, glomerulonephritis
+- Complications: anemia, MBD, hyperkalemia, acidosis, CVD",
+    p: "**Nephroprotective:**
+- ACEi/ARB: reduce proteinuria, slow progression
+- SGLT2i (Dapagliflozin): ลด CKD progression, CVD
+- BP target <130/80
+- Glucose control: HbA1c <7% (DM)
+**Manage complications:**
+- Anemia: ESA + IV Iron (target Hb 10-12)
+- Hyperkalemia: dietary restriction, Patiromer/SZC
+- Metabolic acidosis: NaHCO₃
+- CKD-MBD: phosphate binders, Vit D, Calcimimetics
+**Monitoring:**
+- eGFR, UACR ทุก 3–6 เดือน
+- Electrolytes, Hb
+- BP
+**Counseling:**
+- Low-protein diet (0.6-0.8g/kg/day)
+- Avoid nephrotoxins: NSAIDs, contrast
+- Salt restriction
+- Referral to nephrologist (eGFR<30)"
+  }
+};
+var SOAP_KEYS = Object.keys(SOAP_DB);
+function findSOAPTemplate(disease) {
+  var q = disease.toLowerCase().trim();
+  return SOAP_KEYS.find(function (k) {
+    return q.includes(k) || k.includes(q);
+  }) || null;
+}
+function TabSOAP(_ref21) {
+  var data = _ref21.data,
+    update = _ref21.update,
+    activeSite = _ref21.activeSite;
+  var _useState11 = useState(""),
     _useState12 = _slicedToArray(_useState11, 2),
-    form = _useState12[0],
-    setForm = _useState12[1];
+    disease = _useState12[0],
+    setDisease = _useState12[1];
+  var _useState13 = useState(null),
+    _useState14 = _slicedToArray(_useState13, 2),
+    selCase = _useState14[0],
+    setSelCase = _useState14[1];
+  var _useState15 = useState(null),
+    _useState16 = _slicedToArray(_useState15, 2),
+    form = _useState16[0],
+    setForm = _useState16[1];
+  var _useState17 = useState(false),
+    _useState18 = _slicedToArray(_useState17, 2),
+    aiLoading = _useState18[0],
+    setAiLoading = _useState18[1];
+  var _useState19 = useState(""),
+    _useState20 = _slicedToArray(_useState19, 2),
+    aiError = _useState20[0],
+    setAiError = _useState20[1];
+  var curSite = SITES.find(function (s) {
+    return s.id === activeSite;
+  });
+  var soaps = activeSite === "all" ? data.soaps || [] : (data.soaps || []).filter(function (s) {
+    return (s.site || "hospital") === activeSite;
+  });
+  var generateSOAP = /*#__PURE__*/function () {
+    var _ref22 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
+      var tmplKey, _ROTATIONS$activeSite, t, _json$content, _ROTATIONS$activeSite2, res, json, text, parsed, _ROTATIONS$activeSite3, _t;
+      return _regenerator().w(function (_context) {
+        while (1) switch (_context.p = _context.n) {
+          case 0:
+            if (disease.trim()) {
+              _context.n = 1;
+              break;
+            }
+            return _context.a(2);
+          case 1:
+            tmplKey = findSOAPTemplate(disease);
+            if (!tmplKey) {
+              _context.n = 2;
+              break;
+            }
+            // use built-in template
+            t = SOAP_DB[tmplKey];
+            setForm({
+              disease: t.th || disease,
+              rotation: activeSite !== "all" ? ((_ROTATIONS$activeSite = ROTATIONS[activeSite]) === null || _ROTATIONS$activeSite === void 0 || (_ROTATIONS$activeSite = _ROTATIONS$activeSite[0]) === null || _ROTATIONS$activeSite === void 0 ? void 0 : _ROTATIONS$activeSite.id) || "" : "",
+              site: activeSite !== "all" ? activeSite : "hospital",
+              date: todayStr(),
+              s: t.s,
+              o: t.o,
+              a: t.a,
+              p: t.p,
+              assessment: "",
+              plan: "",
+              note: "",
+              fromDB: true
+            });
+            setDisease("");
+            return _context.a(2);
+          case 2:
+            // use Claude AI
+            setAiLoading(true);
+            setAiError("");
+            _context.p = 3;
+            _context.n = 4;
+            return fetch("https://api.anthropic.com/v1/messages", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                model: "claude-sonnet-4-20250514",
+                max_tokens: 1000,
+                system: "You are a clinical pharmacy expert. Respond ONLY with a JSON object (no markdown, no code fences). Keys: disease (Thai/English name), s (Subjective - Thai), o (Objective - Thai), a (Assessment - Thai), p (Plan - pharmacotherapy + monitoring + counseling in Thai). Each value is a string with newlines using \n. Be concise but clinically complete.",
+                messages: [{
+                  role: "user",
+                  content: "Create a SOAP note template for: ".concat(disease)
+                }]
+              })
+            });
+          case 4:
+            res = _context.v;
+            _context.n = 5;
+            return res.json();
+          case 5:
+            json = _context.v;
+            text = ((_json$content = json.content) === null || _json$content === void 0 || (_json$content = _json$content.find(function (c) {
+              return c.type === "text";
+            })) === null || _json$content === void 0 ? void 0 : _json$content.text) || "";
+            text = text.replace(/```json|```/g, "").trim();
+            parsed = JSON.parse(text);
+            setForm({
+              disease: parsed.disease || disease,
+              rotation: activeSite !== "all" ? ((_ROTATIONS$activeSite2 = ROTATIONS[activeSite]) === null || _ROTATIONS$activeSite2 === void 0 || (_ROTATIONS$activeSite2 = _ROTATIONS$activeSite2[0]) === null || _ROTATIONS$activeSite2 === void 0 ? void 0 : _ROTATIONS$activeSite2.id) || "" : "",
+              site: activeSite !== "all" ? activeSite : "hospital",
+              date: todayStr(),
+              s: parsed.s || "",
+              o: parsed.o || "",
+              a: parsed.a || "",
+              p: parsed.p || "",
+              assessment: "",
+              plan: "",
+              note: "",
+              fromDB: false
+            });
+            setDisease("");
+            _context.n = 7;
+            break;
+          case 6:
+            _context.p = 6;
+            _t = _context.v;
+            setAiError("AI generate ไม่ได้ — กรอก template เองได้เลย");
+            setForm({
+              disease: disease,
+              site: activeSite !== "all" ? activeSite : "hospital",
+              rotation: activeSite !== "all" ? ((_ROTATIONS$activeSite3 = ROTATIONS[activeSite]) === null || _ROTATIONS$activeSite3 === void 0 || (_ROTATIONS$activeSite3 = _ROTATIONS$activeSite3[0]) === null || _ROTATIONS$activeSite3 === void 0 ? void 0 : _ROTATIONS$activeSite3.id) || "" : "",
+              date: todayStr(),
+              s: "",
+              o: "",
+              a: "",
+              p: "",
+              assessment: "",
+              plan: "",
+              note: "",
+              fromDB: false
+            });
+          case 7:
+            _context.p = 7;
+            setAiLoading(false);
+            return _context.f(7);
+          case 8:
+            return _context.a(2);
+        }
+      }, _callee, null, [[3, 6, 7, 8]]);
+    }));
+    return function generateSOAP() {
+      return _ref22.apply(this, arguments);
+    };
+  }();
+  var saveSOAP = function saveSOAP(f) {
+    update(function (d) {
+      if (!d.soaps) d.soaps = [];
+      if (f.id) d.soaps = d.soaps.map(function (x) {
+        return x.id === f.id ? f : x;
+      });else d.soaps.unshift(_objectSpread(_objectSpread({}, f), {}, {
+        id: Date.now()
+      }));
+      return d;
+    });
+    setForm(null);
+  };
+
+  // detail view
+  var detail = (data.soaps || []).find(function (s) {
+    return s.id === selCase;
+  });
+  if (selCase && detail) {
+    var rot = ALL_ROTATIONS.find(function (r) {
+      return r.id === detail.rotation;
+    });
+    var dSite = SITES.find(function (s) {
+      return s.id === detail.site;
+    });
+    return /*#__PURE__*/React.createElement("div", {
+      style: S.tab,
+      className: "fi"
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        marginBottom: 14
+      }
+    }, /*#__PURE__*/React.createElement(Btn, {
+      onClick: function onClick() {
+        setSelCase(null);
+        setForm(null);
+      },
+      sx: S.arrBtn
+    }, "\u2039"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontWeight: 700,
+        fontSize: 16
+      }
+    }, detail.disease), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 6,
+        marginTop: 3
+      }
+    }, dSite && /*#__PURE__*/React.createElement(Badge, {
+      style: {
+        background: dSite.bg,
+        color: dSite.color
+      }
+    }, dSite.icon, " ", dSite.label), rot && /*#__PURE__*/React.createElement(Badge, {
+      style: {
+        background: rot.color + "22",
+        color: rot.color
+      }
+    }, rot.label), /*#__PURE__*/React.createElement(Badge, null, detail.date)))), [["s", "S — Subjective 🗣️"], ["o", "O — Objective 🔬"], ["a", "A — Assessment 🧠"], ["p", "P — Plan 💊"]].map(function (_ref23) {
+      var _ref24 = _slicedToArray(_ref23, 2),
+        k = _ref24[0],
+        l = _ref24[1];
+      return detail[k] && /*#__PURE__*/React.createElement(Card, {
+        key: k,
+        title: l
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 13,
+          color: "#D1D5DB",
+          lineHeight: 1.9,
+          whiteSpace: "pre-wrap",
+          fontFamily: "'Sarabun',sans-serif"
+        }
+      }, detail[k]));
+    }), detail.note && /*#__PURE__*/React.createElement(Card, {
+      title: "\uD83D\uDCDD \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E15\u0E34\u0E21"
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 13,
+        color: "#D1D5DB",
+        lineHeight: 1.8,
+        whiteSpace: "pre-wrap"
+      }
+    }, detail.note)), /*#__PURE__*/React.createElement(Row2, null, /*#__PURE__*/React.createElement(Btn, {
+      onClick: function onClick() {
+        return setForm(_objectSpread({}, detail));
+      },
+      sx: _objectSpread(_objectSpread({}, S.ghostBtn), {}, {
+        flex: 1
+      })
+    }, "\u270F\uFE0F \u0E41\u0E01\u0E49\u0E44\u0E02"), /*#__PURE__*/React.createElement(RedBtn, {
+      style: {
+        flex: 1
+      },
+      onClick: function onClick() {
+        update(function (d) {
+          d.soaps = (d.soaps || []).filter(function (x) {
+            return x.id !== selCase;
+          });
+          return d;
+        });
+        setSelCase(null);
+      }
+    }, "\u0E25\u0E1A")), form && form.id === detail.id && /*#__PURE__*/React.createElement(SOAPForm, {
+      form: form,
+      setForm: setForm,
+      onSave: saveSOAP,
+      onCancel: function onCancel() {
+        return setForm(null);
+      },
+      activeSite: activeSite
+    }));
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    style: S.tab,
+    className: "fi"
+  }, curSite && /*#__PURE__*/React.createElement(SiteBanner, {
+    site: curSite
+  }), /*#__PURE__*/React.createElement(Card, {
+    title: "\uD83E\uDE7A \u0E2A\u0E23\u0E49\u0E32\u0E07 SOAP Template"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: "#4B5563",
+      marginBottom: 8,
+      lineHeight: 1.6
+    }
+  }, "\u0E1E\u0E34\u0E21\u0E1E\u0E4C\u0E0A\u0E37\u0E48\u0E2D\u0E42\u0E23\u0E04 \u2192 \u0E16\u0E49\u0E32\u0E2D\u0E22\u0E39\u0E48\u0E43\u0E19 database \u0E08\u0E30\u0E43\u0E0A\u0E49 template \u0E2A\u0E33\u0E40\u0E23\u0E47\u0E08 \xB7 \u0E16\u0E49\u0E32\u0E44\u0E21\u0E48\u0E2D\u0E22\u0E39\u0E48 AI \u0E08\u0E30 generate \u0E43\u0E2B\u0E49"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8,
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    value: disease,
+    onChange: function onChange(e) {
+      return setDisease(e.target.value);
+    },
+    onKeyDown: function onKeyDown(e) {
+      if (e.key === "Enter") generateSOAP();
+    },
+    placeholder: "\u0E40\u0E0A\u0E48\u0E19 Heart Failure, Pneumonia, DM...",
+    style: _objectSpread(_objectSpread({}, S.inp), {}, {
+      flex: 1
+    })
+  }), /*#__PURE__*/React.createElement(Btn, {
+    onClick: generateSOAP,
+    sx: _objectSpread(_objectSpread({}, S.addBtn), {}, {
+      width: "auto",
+      padding: "0 14px",
+      fontSize: 12,
+      whiteSpace: "nowrap"
+    })
+  }, aiLoading ? "⏳" : "สร้าง")), aiError && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "#F87171",
+      marginBottom: 6
+    }
+  }, aiError), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "#374151"
+    }
+  }, "\uD83D\uDCDA Database: ", SOAP_KEYS.map(function (k) {
+    return SOAP_DB[k].en;
+  }).join(" · "))), form && !form.id && /*#__PURE__*/React.createElement(SOAPForm, {
+    form: form,
+    setForm: setForm,
+    onSave: saveSOAP,
+    onCancel: function onCancel() {
+      return setForm(null);
+    },
+    activeSite: activeSite
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "#4B5563",
+      fontWeight: 600,
+      textTransform: "uppercase",
+      letterSpacing: 1,
+      marginBottom: 8
+    }
+  }, "Cases \u0E17\u0E35\u0E48\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E41\u0E25\u0E49\u0E27"), soaps.length === 0 && /*#__PURE__*/React.createElement(Muted, null, "\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E21\u0E35 SOAP case"), soaps.map(function (s) {
+    var rot = ALL_ROTATIONS.find(function (r) {
+      return r.id === s.rotation;
+    });
+    var dSite = SITES.find(function (x) {
+      return x.id === s.site;
+    });
+    return /*#__PURE__*/React.createElement("div", {
+      key: s.id,
+      className: "hov",
+      style: _objectSpread(_objectSpread({}, S.card), {}, {
+        cursor: "pointer"
+      }),
+      onClick: function onClick() {
+        return setSelCase(s.id);
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        marginBottom: 6
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontWeight: 600,
+        fontSize: 14,
+        flex: 1
+      }
+    }, s.disease), s.fromDB && /*#__PURE__*/React.createElement(Badge, {
+      style: {
+        background: "#052E1C",
+        color: "#34D399"
+      }
+    }, "DB \u2713")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        gap: 6,
+        flexWrap: "wrap"
+      }
+    }, dSite && activeSite === "all" && /*#__PURE__*/React.createElement(Badge, {
+      style: {
+        background: dSite.bg,
+        color: dSite.color
+      }
+    }, dSite.icon, " ", dSite.label), rot && /*#__PURE__*/React.createElement(Badge, {
+      style: {
+        background: rot.color + "22",
+        color: rot.color
+      }
+    }, rot.label), /*#__PURE__*/React.createElement(Badge, null, s.date)), s.a && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        color: "#6B7280",
+        marginTop: 6,
+        overflow: "hidden",
+        display: "-webkit-box",
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: "vertical"
+      }
+    }, s.a));
+  }));
+}
+function SOAPForm(_ref25) {
+  var form = _ref25.form,
+    setForm = _ref25.setForm,
+    onSave = _ref25.onSave,
+    onCancel = _ref25.onCancel,
+    activeSite = _ref25.activeSite;
+  var siteRots = ROTATIONS[form.site || "hospital"] || [];
+  return /*#__PURE__*/React.createElement(Card, {
+    title: form.id ? "✏️ แก้ไข SOAP" : "\uD83D\uDCCB ".concat(form.disease).concat(form.fromDB ? " (จาก DB)" : "")
+  }, /*#__PURE__*/React.createElement(FL, {
+    label: "\u0E0A\u0E37\u0E48\u0E2D\u0E42\u0E23\u0E04 / Diagnosis"
+  }, /*#__PURE__*/React.createElement("input", {
+    value: form.disease,
+    onChange: function onChange(e) {
+      return setForm(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          disease: e.target.value
+        });
+      });
+    },
+    style: S.inp
+  })), activeSite === "all" && /*#__PURE__*/React.createElement(FL, {
+    label: "\u0E41\u0E2B\u0E25\u0E48\u0E07\u0E1D\u0E36\u0E01"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6
+    }
+  }, SITES.map(function (s) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: s.id,
+      onClick: function onClick() {
+        return setForm(function (f) {
+          var _ROTATIONS$s$id;
+          return _objectSpread(_objectSpread({}, f), {}, {
+            site: s.id,
+            rotation: ((_ROTATIONS$s$id = ROTATIONS[s.id]) === null || _ROTATIONS$s$id === void 0 || (_ROTATIONS$s$id = _ROTATIONS$s$id[0]) === null || _ROTATIONS$s$id === void 0 ? void 0 : _ROTATIONS$s$id.id) || ""
+          });
+        });
+      },
+      style: {
+        flex: 1,
+        padding: "6px 4px",
+        borderRadius: 8,
+        fontSize: 11,
+        cursor: "pointer",
+        fontFamily: "inherit",
+        border: "1px solid ".concat((form.site || "hospital") === s.id ? s.color : "#1C2433"),
+        background: (form.site || "hospital") === s.id ? s.bg : "transparent",
+        color: (form.site || "hospital") === s.id ? s.color : "#4B5563"
+      }
+    }, s.icon, " ", s.label);
+  }))), siteRots.length > 0 && /*#__PURE__*/React.createElement(FL, {
+    label: "\u0E1C\u0E25\u0E31\u0E14"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 6,
+      flexWrap: "wrap"
+    }
+  }, siteRots.map(function (r) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: r.id,
+      onClick: function onClick() {
+        return setForm(function (f) {
+          return _objectSpread(_objectSpread({}, f), {}, {
+            rotation: r.id
+          });
+        });
+      },
+      style: {
+        padding: "5px 12px",
+        borderRadius: 99,
+        fontSize: 12,
+        fontWeight: 700,
+        cursor: "pointer",
+        fontFamily: "inherit",
+        border: "1px solid ".concat(form.rotation === r.id ? r.color : "#1C2433"),
+        background: form.rotation === r.id ? r.color + "22" : "transparent",
+        color: form.rotation === r.id ? r.color : "#4B5563"
+      }
+    }, r.label);
+  }))), /*#__PURE__*/React.createElement(FL, {
+    label: "\u0E27\u0E31\u0E19\u0E17\u0E35\u0E48"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "date",
+    value: form.date,
+    onChange: function onChange(e) {
+      return setForm(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          date: e.target.value
+        });
+      });
+    },
+    style: S.inp,
+    max: todayStr()
+  })), [["s", "S — Subjective (อาการที่ผู้ป่วยบอก)"], ["o", "O — Objective (ผลตรวจ / Lab)"], ["a", "A — Assessment (วิเคราะห์)"], ["p", "P — Plan (การรักษา)"]].map(function (_ref26) {
+    var _ref27 = _slicedToArray(_ref26, 2),
+      k = _ref27[0],
+      l = _ref27[1];
+    return /*#__PURE__*/React.createElement(FL, {
+      key: k,
+      label: l
+    }, /*#__PURE__*/React.createElement("textarea", {
+      value: form[k],
+      onChange: function onChange(e) {
+        return setForm(function (f) {
+          return _objectSpread(_objectSpread({}, f), {}, _defineProperty({}, k, e.target.value));
+        });
+      },
+      style: _objectSpread(_objectSpread({}, S.inp), {}, {
+        height: 90,
+        resize: "vertical",
+        fontSize: 12,
+        lineHeight: 1.7
+      })
+    }));
+  }), /*#__PURE__*/React.createElement(FL, {
+    label: "\uD83D\uDCDD \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E15\u0E34\u0E21 / \u0E2A\u0E34\u0E48\u0E07\u0E17\u0E35\u0E48\u0E40\u0E23\u0E35\u0E22\u0E19\u0E23\u0E39\u0E49"
+  }, /*#__PURE__*/React.createElement("textarea", {
+    value: form.note,
+    onChange: function onChange(e) {
+      return setForm(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          note: e.target.value
+        });
+      });
+    },
+    placeholder: "clinical pearls, \u0E02\u0E49\u0E2D\u0E2A\u0E31\u0E07\u0E40\u0E01\u0E15, \u0E2A\u0E34\u0E48\u0E07\u0E17\u0E35\u0E48\u0E15\u0E49\u0E2D\u0E07\u0E2D\u0E48\u0E32\u0E19\u0E40\u0E1E\u0E34\u0E48\u0E21\u2026",
+    style: _objectSpread(_objectSpread({}, S.inp), {}, {
+      height: 60,
+      resize: "vertical",
+      fontSize: 12
+    })
+  })), /*#__PURE__*/React.createElement(Row2, null, /*#__PURE__*/React.createElement(Btn, {
+    onClick: function onClick() {
+      if (!form.disease.trim()) return;
+      onSave(form);
+    },
+    sx: _objectSpread(_objectSpread({}, S.primBtn), {}, {
+      flex: 1,
+      marginBottom: 0
+    })
+  }, "\u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01 SOAP"), /*#__PURE__*/React.createElement(Btn, {
+    onClick: onCancel,
+    sx: _objectSpread(_objectSpread({}, S.ghostBtn), {}, {
+      flex: 1
+    })
+  }, "\u0E22\u0E01\u0E40\u0E25\u0E34\u0E01")));
+}
+
+// ─── SCHEDULE ────────────────────────────────────────────────────
+function TabSchedule(_ref28) {
+  var data = _ref28.data,
+    update = _ref28.update,
+    date = _ref28.date,
+    setDate = _ref28.setDate,
+    activeSite = _ref28.activeSite;
+  var _useState21 = useState(null),
+    _useState22 = _slicedToArray(_useState21, 2),
+    form = _useState22[0],
+    setForm = _useState22[1];
   var selDow = DOWEN[(new Date(date).getDay() + 6) % 7];
   var items = data.schedule.filter(function (s) {
     var siteMatch = activeSite === "all" || (s.site || "hospital") === activeSite;
@@ -1891,10 +3282,10 @@ function TabSchedule(_ref20) {
       display: "flex",
       gap: 6
     }
-  }, [["once", "ครั้งเดียว"], ["weekly", "รายสัปดาห์"], ["daily", "ทุกวัน"]].map(function (_ref21) {
-    var _ref22 = _slicedToArray(_ref21, 2),
-      v = _ref22[0],
-      l = _ref22[1];
+  }, [["once", "ครั้งเดียว"], ["weekly", "รายสัปดาห์"], ["daily", "ทุกวัน"]].map(function (_ref29) {
+    var _ref30 = _slicedToArray(_ref29, 2),
+      v = _ref30[0],
+      l = _ref30[1];
     return /*#__PURE__*/React.createElement(Chip, {
       key: v,
       on: form.repeat === v,
@@ -2049,22 +3440,22 @@ function TabSchedule(_ref20) {
 }
 
 // ─── TEACHERS ────────────────────────────────────────────────────
-function TabTeachers(_ref23) {
-  var data = _ref23.data,
-    update = _ref23.update,
-    activeSite = _ref23.activeSite;
-  var _useState13 = useState(null),
-    _useState14 = _slicedToArray(_useState13, 2),
-    selT = _useState14[0],
-    setSelT = _useState14[1];
-  var _useState15 = useState(null),
-    _useState16 = _slicedToArray(_useState15, 2),
-    tForm = _useState16[0],
-    setTForm = _useState16[1];
-  var _useState17 = useState(null),
-    _useState18 = _slicedToArray(_useState17, 2),
-    qForm = _useState18[0],
-    setQForm = _useState18[1];
+function TabTeachers(_ref31) {
+  var data = _ref31.data,
+    update = _ref31.update,
+    activeSite = _ref31.activeSite;
+  var _useState23 = useState(null),
+    _useState24 = _slicedToArray(_useState23, 2),
+    selT = _useState24[0],
+    setSelT = _useState24[1];
+  var _useState25 = useState(null),
+    _useState26 = _slicedToArray(_useState25, 2),
+    tForm = _useState26[0],
+    setTForm = _useState26[1];
+  var _useState27 = useState(null),
+    _useState28 = _slicedToArray(_useState27, 2),
+    qForm = _useState28[0],
+    setQForm = _useState28[1];
   var curSite = SITES.find(function (s) {
     return s.id === activeSite;
   });
@@ -2228,10 +3619,10 @@ function TabTeachers(_ref23) {
         gap: 6,
         flexWrap: "wrap"
       }
-    }, [["pending", "⏳ รอ"], ["accepted", "✅ Accept"], ["retry", "🔄 ทำใหม่"], ["rejected", "❌ ผิด"]].map(function (_ref24) {
-      var _ref25 = _slicedToArray(_ref24, 2),
-        v = _ref25[0],
-        l = _ref25[1];
+    }, [["pending", "⏳ รอ"], ["accepted", "✅ Accept"], ["retry", "🔄 ทำใหม่"], ["rejected", "❌ ผิด"]].map(function (_ref32) {
+      var _ref33 = _slicedToArray(_ref32, 2),
+        v = _ref33[0],
+        l = _ref33[1];
       return /*#__PURE__*/React.createElement(Chip, {
         key: v,
         on: qForm.status === v,
@@ -2366,11 +3757,11 @@ function TabTeachers(_ref23) {
     sx: S.primBtn
   }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E2D\u0E32\u0E08\u0E32\u0E23\u0E22\u0E4C"), tForm && /*#__PURE__*/React.createElement(Card, {
     title: "\uD83D\uDC69\u200D\uD83C\uDFEB \u0E40\u0E1E\u0E34\u0E48\u0E21\u0E2D\u0E32\u0E08\u0E32\u0E23\u0E22\u0E4C"
-  }, [["name", "ชื่อ-สกุล", "อ.ดร.สมใจ"], ["dept", "แผนก", "OPD, Ward"], ["role", "ตำแหน่ง", "เภสัชกร/อาจารย์นิเทศ"], ["contact", "ติดต่อ", "เบอร์/Line"]].map(function (_ref26) {
-    var _ref27 = _slicedToArray(_ref26, 3),
-      k = _ref27[0],
-      l = _ref27[1],
-      p = _ref27[2];
+  }, [["name", "ชื่อ-สกุล", "อ.ดร.สมใจ"], ["dept", "แผนก", "OPD, Ward"], ["role", "ตำแหน่ง", "เภสัชกร/อาจารย์นิเทศ"], ["contact", "ติดต่อ", "เบอร์/Line"]].map(function (_ref34) {
+    var _ref35 = _slicedToArray(_ref34, 3),
+      k = _ref35[0],
+      l = _ref35[1],
+      p = _ref35[2];
     return /*#__PURE__*/React.createElement(FL, {
       key: k,
       label: l
@@ -2505,22 +3896,22 @@ function TabTeachers(_ref23) {
 }
 
 // ─── GUIDELINE ───────────────────────────────────────────────────
-function TabGuide(_ref28) {
-  var data = _ref28.data,
-    update = _ref28.update,
-    activeSite = _ref28.activeSite;
-  var _useState19 = useState(null),
-    _useState20 = _slicedToArray(_useState19, 2),
-    form = _useState20[0],
-    setForm = _useState20[1];
-  var _useState21 = useState(null),
-    _useState22 = _slicedToArray(_useState21, 2),
-    sel = _useState22[0],
-    setSel = _useState22[1];
-  var _useState23 = useState(""),
-    _useState24 = _slicedToArray(_useState23, 2),
-    q = _useState24[0],
-    setQ = _useState24[1];
+function TabGuide(_ref36) {
+  var data = _ref36.data,
+    update = _ref36.update,
+    activeSite = _ref36.activeSite;
+  var _useState29 = useState(null),
+    _useState30 = _slicedToArray(_useState29, 2),
+    form = _useState30[0],
+    setForm = _useState30[1];
+  var _useState31 = useState(null),
+    _useState32 = _slicedToArray(_useState31, 2),
+    sel = _useState32[0],
+    setSel = _useState32[1];
+  var _useState33 = useState(""),
+    _useState34 = _slicedToArray(_useState33, 2),
+    q = _useState34[0],
+    setQ = _useState34[1];
   var curSite = SITES.find(function (s) {
     return s.id === activeSite;
   });
@@ -2568,10 +3959,10 @@ function TabGuide(_ref28) {
         fontSize: 12,
         color: "#4B5563"
       }
-    }, guide.source, " \xB7 ", guide.year))), [["keyPoints", "Key Points 📌"], ["drugs", "ยาที่ใช้ 💊"], ["monitoring", "Monitoring 🔍"], ["notes", "Notes 📝"]].map(function (_ref29) {
-      var _ref30 = _slicedToArray(_ref29, 2),
-        k = _ref30[0],
-        l = _ref30[1];
+    }, guide.source, " \xB7 ", guide.year))), [["keyPoints", "Key Points 📌"], ["drugs", "ยาที่ใช้ 💊"], ["monitoring", "Monitoring 🔍"], ["notes", "Notes 📝"]].map(function (_ref37) {
+      var _ref38 = _slicedToArray(_ref37, 2),
+        k = _ref38[0],
+        l = _ref38[1];
       return guide[k] ? /*#__PURE__*/React.createElement(Card, {
         key: k,
         title: l
@@ -2705,19 +4096,19 @@ function TabGuide(_ref28) {
     }, g.keyPoints));
   }));
 }
-function GuideForm(_ref31) {
-  var form = _ref31.form,
-    setForm = _ref31.setForm,
-    onSave = _ref31.onSave,
-    onCancel = _ref31.onCancel,
-    activeSite = _ref31.activeSite;
+function GuideForm(_ref39) {
+  var form = _ref39.form,
+    setForm = _ref39.setForm,
+    onSave = _ref39.onSave,
+    onCancel = _ref39.onCancel,
+    activeSite = _ref39.activeSite;
   return /*#__PURE__*/React.createElement(Card, {
     title: form.id ? "✏️ แก้ไข" : "📋 เพิ่ม Guideline"
-  }, [["disease", "ชื่อโรค", "Heart Failure, Hypertension"], ["source", "แหล่งที่มา", "ACC/AHA, Thai guideline"], ["year", "ปี", "2024"]].map(function (_ref32) {
-    var _ref33 = _slicedToArray(_ref32, 3),
-      k = _ref33[0],
-      l = _ref33[1],
-      p = _ref33[2];
+  }, [["disease", "ชื่อโรค", "Heart Failure, Hypertension"], ["source", "แหล่งที่มา", "ACC/AHA, Thai guideline"], ["year", "ปี", "2024"]].map(function (_ref40) {
+    var _ref41 = _slicedToArray(_ref40, 3),
+      k = _ref41[0],
+      l = _ref41[1],
+      p = _ref41[2];
     return /*#__PURE__*/React.createElement(FL, {
       key: k,
       label: l
@@ -2760,11 +4151,11 @@ function GuideForm(_ref31) {
         color: (form.site || "hospital") === s.id ? s.color : "#4B5563"
       }
     }, s.icon, " ", s.label);
-  }))), [["keyPoints", "Key Points 📌", "สรุปประเด็นสำคัญ"], ["drugs", "ยาที่ใช้ 💊", "First-line, Second-line"], ["monitoring", "Monitoring 🔍", "ติดตามอะไรบ้าง"], ["notes", "Notes 📝", "เพิ่มเติม"]].map(function (_ref34) {
-    var _ref35 = _slicedToArray(_ref34, 3),
-      k = _ref35[0],
-      l = _ref35[1],
-      p = _ref35[2];
+  }))), [["keyPoints", "Key Points 📌", "สรุปประเด็นสำคัญ"], ["drugs", "ยาที่ใช้ 💊", "First-line, Second-line"], ["monitoring", "Monitoring 🔍", "ติดตามอะไรบ้าง"], ["notes", "Notes 📝", "เพิ่มเติม"]].map(function (_ref42) {
+    var _ref43 = _slicedToArray(_ref42, 3),
+      k = _ref43[0],
+      l = _ref43[1],
+      p = _ref43[2];
     return /*#__PURE__*/React.createElement(FL, {
       key: k,
       label: l
@@ -2799,26 +4190,26 @@ function GuideForm(_ref31) {
 }
 
 // ─── PAPERS ──────────────────────────────────────────────────────
-function TabPapers(_ref36) {
-  var data = _ref36.data,
-    update = _ref36.update,
-    activeSite = _ref36.activeSite;
-  var _useState25 = useState(null),
-    _useState26 = _slicedToArray(_useState25, 2),
-    form = _useState26[0],
-    setForm = _useState26[1];
-  var _useState27 = useState(null),
-    _useState28 = _slicedToArray(_useState27, 2),
-    sel = _useState28[0],
-    setSel = _useState28[1];
-  var _useState29 = useState(""),
-    _useState30 = _slicedToArray(_useState29, 2),
-    q = _useState30[0],
-    setQ = _useState30[1];
-  var _useState31 = useState("all"),
-    _useState32 = _slicedToArray(_useState31, 2),
-    ft = _useState32[0],
-    setFt = _useState32[1];
+function TabPapers(_ref44) {
+  var data = _ref44.data,
+    update = _ref44.update,
+    activeSite = _ref44.activeSite;
+  var _useState35 = useState(null),
+    _useState36 = _slicedToArray(_useState35, 2),
+    form = _useState36[0],
+    setForm = _useState36[1];
+  var _useState37 = useState(null),
+    _useState38 = _slicedToArray(_useState37, 2),
+    sel = _useState38[0],
+    setSel = _useState38[1];
+  var _useState39 = useState(""),
+    _useState40 = _slicedToArray(_useState39, 2),
+    q = _useState40[0],
+    setQ = _useState40[1];
+  var _useState41 = useState("all"),
+    _useState42 = _slicedToArray(_useState41, 2),
+    ft = _useState42[0],
+    setFt = _useState42[1];
   var curSite = SITES.find(function (s) {
     return s.id === activeSite;
   });
@@ -2889,10 +4280,10 @@ function TabPapers(_ref36) {
         background: "#052E1C",
         color: "#34D399"
       }
-    }, "Reviewed \u2713")), [["objective", "Objective 🎯"], ["methods", "Methods 🔬"], ["results", "Results 📊"], ["conclusion", "Conclusion 💡"], ["pico", "PICO 🔎"], ["clinicalApply", "Clinical Application 🏥"], ["myNote", "บันทึกส่วนตัว 📝"]].map(function (_ref37) {
-      var _ref38 = _slicedToArray(_ref37, 2),
-        k = _ref38[0],
-        l = _ref38[1];
+    }, "Reviewed \u2713")), [["objective", "Objective 🎯"], ["methods", "Methods 🔬"], ["results", "Results 📊"], ["conclusion", "Conclusion 💡"], ["pico", "PICO 🔎"], ["clinicalApply", "Clinical Application 🏥"], ["myNote", "บันทึกส่วนตัว 📝"]].map(function (_ref45) {
+      var _ref46 = _slicedToArray(_ref45, 2),
+        k = _ref46[0],
+        l = _ref46[1];
       return paper[k] ? /*#__PURE__*/React.createElement(Card, {
         key: k,
         title: l
@@ -3058,12 +4449,12 @@ function TabPapers(_ref36) {
     }, p.conclusion));
   }));
 }
-function PaperForm(_ref39) {
-  var form = _ref39.form,
-    setForm = _ref39.setForm,
-    onSave = _ref39.onSave,
-    onCancel = _ref39.onCancel,
-    activeSite = _ref39.activeSite;
+function PaperForm(_ref47) {
+  var form = _ref47.form,
+    setForm = _ref47.setForm,
+    onSave = _ref47.onSave,
+    onCancel = _ref47.onCancel,
+    activeSite = _ref47.activeSite;
   return /*#__PURE__*/React.createElement(Card, {
     title: form.id ? "✏️ แก้ไข" : "📄 เพิ่ม Paper"
   }, /*#__PURE__*/React.createElement(FL, {
@@ -3082,11 +4473,11 @@ function PaperForm(_ref39) {
       height: 60,
       resize: "vertical"
     })
-  })), [["authors", "Authors", "ชื่อผู้เขียน"], ["journal", "Journal", "ชื่อ journal"], ["year", "ปี", "2024"]].map(function (_ref40) {
-    var _ref41 = _slicedToArray(_ref40, 3),
-      k = _ref41[0],
-      l = _ref41[1],
-      p = _ref41[2];
+  })), [["authors", "Authors", "ชื่อผู้เขียน"], ["journal", "Journal", "ชื่อ journal"], ["year", "ปี", "2024"]].map(function (_ref48) {
+    var _ref49 = _slicedToArray(_ref48, 3),
+      k = _ref49[0],
+      l = _ref49[1],
+      p = _ref49[2];
     return /*#__PURE__*/React.createElement(FL, {
       key: k,
       label: l
@@ -3149,11 +4540,11 @@ function PaperForm(_ref39) {
         });
       }
     }, t);
-  }))), [["objective", "Objective 🎯", "จุดประสงค์"], ["methods", "Methods 🔬", "วิธีการ"], ["results", "Results 📊", "ผลที่ได้"], ["conclusion", "Conclusion 💡", "สรุป"], ["pico", "PICO 🔎", "P/I/C/O"], ["clinicalApply", "Clinical Application", "นำไปใช้"], ["myNote", "บันทึกส่วนตัว", "สิ่งที่เราคิด"]].map(function (_ref42) {
-    var _ref43 = _slicedToArray(_ref42, 3),
-      k = _ref43[0],
-      l = _ref43[1],
-      p = _ref43[2];
+  }))), [["objective", "Objective 🎯", "จุดประสงค์"], ["methods", "Methods 🔬", "วิธีการ"], ["results", "Results 📊", "ผลที่ได้"], ["conclusion", "Conclusion 💡", "สรุป"], ["pico", "PICO 🔎", "P/I/C/O"], ["clinicalApply", "Clinical Application", "นำไปใช้"], ["myNote", "บันทึกส่วนตัว", "สิ่งที่เราคิด"]].map(function (_ref50) {
+    var _ref51 = _slicedToArray(_ref50, 3),
+      k = _ref51[0],
+      l = _ref51[1],
+      p = _ref51[2];
     return /*#__PURE__*/React.createElement(FL, {
       key: k,
       label: l
@@ -3212,19 +4603,19 @@ function PaperForm(_ref39) {
 }
 
 // ─── OVERVIEW ────────────────────────────────────────────────────
-function TabOverview(_ref44) {
-  var data = _ref44.data,
-    activeSite = _ref44.activeSite;
-  var allEntries = Object.entries(data.entries).sort(function (_ref45, _ref46) {
-    var _ref47 = _slicedToArray(_ref45, 1),
-      a = _ref47[0];
-    var _ref48 = _slicedToArray(_ref46, 1),
-      b = _ref48[0];
+function TabOverview(_ref52) {
+  var data = _ref52.data,
+    activeSite = _ref52.activeSite;
+  var allEntries = Object.entries(data.entries).sort(function (_ref53, _ref54) {
+    var _ref55 = _slicedToArray(_ref53, 1),
+      a = _ref55[0];
+    var _ref56 = _slicedToArray(_ref54, 1),
+      b = _ref56[0];
     return a > b ? 1 : -1;
   });
-  var entries = activeSite === "all" ? allEntries : allEntries.filter(function (_ref49) {
-    var _ref50 = _slicedToArray(_ref49, 2),
-      e = _ref50[1];
+  var entries = activeSite === "all" ? allEntries : allEntries.filter(function (_ref57) {
+    var _ref58 = _slicedToArray(_ref57, 2),
+      e = _ref58[1];
     return (e.site || "hospital") === activeSite;
   });
   var curSite = SITES.find(function (s) {
@@ -3232,33 +4623,33 @@ function TabOverview(_ref44) {
   });
   var last14 = entries.slice(-14);
   var n = entries.length;
-  var moodAvg = n ? (entries.reduce(function (s, _ref51) {
-    var _ref52 = _slicedToArray(_ref51, 2),
-      e = _ref52[1];
+  var moodAvg = n ? (entries.reduce(function (s, _ref59) {
+    var _ref60 = _slicedToArray(_ref59, 2),
+      e = _ref60[1];
     return s + e.mood;
   }, 0) / n).toFixed(1) : "-";
-  var scoreAvg = n ? (entries.reduce(function (s, _ref53) {
-    var _ref54 = _slicedToArray(_ref53, 2),
-      e = _ref54[1];
+  var scoreAvg = n ? (entries.reduce(function (s, _ref61) {
+    var _ref62 = _slicedToArray(_ref61, 2),
+      e = _ref62[1];
     return s + Object.values(e.scores).reduce(function (a, b) {
       return a + b;
     }, 0) / 6;
   }, 0) / n).toFixed(1) : "-";
-  var tasksDone = entries.reduce(function (s, _ref55) {
-    var _ref56 = _slicedToArray(_ref55, 2),
-      e = _ref56[1];
+  var tasksDone = entries.reduce(function (s, _ref63) {
+    var _ref64 = _slicedToArray(_ref63, 2),
+      e = _ref64[1];
     return s + e.tasks.filter(function (t) {
       return t.done;
     }).length;
   }, 0);
-  var tasksTotal = entries.reduce(function (s, _ref57) {
-    var _ref58 = _slicedToArray(_ref57, 2),
-      e = _ref58[1];
+  var tasksTotal = entries.reduce(function (s, _ref65) {
+    var _ref66 = _slicedToArray(_ref65, 2),
+      e = _ref66[1];
     return s + e.tasks.length;
   }, 0);
-  var readTotal = entries.reduce(function (s, _ref59) {
-    var _ref60 = _slicedToArray(_ref59, 2),
-      e = _ref60[1];
+  var readTotal = entries.reduce(function (s, _ref67) {
+    var _ref68 = _slicedToArray(_ref67, 2),
+      e = _ref68[1];
     return s + e.reading.length;
   }, 0);
   var totalQs = data.questions.length;
@@ -3344,9 +4735,9 @@ function TabOverview(_ref44) {
   })), n > 0 && /*#__PURE__*/React.createElement(Card, {
     title: "\uD83D\uDCCA \u0E04\u0E30\u0E41\u0E19\u0E19\u0E40\u0E09\u0E25\u0E35\u0E48\u0E22\u0E41\u0E15\u0E48\u0E25\u0E30\u0E21\u0E34\u0E15\u0E34"
   }, DIMS.map(function (d) {
-    var avg = entries.reduce(function (s, _ref61) {
-      var _ref62 = _slicedToArray(_ref61, 2),
-        e = _ref62[1];
+    var avg = entries.reduce(function (s, _ref69) {
+      var _ref70 = _slicedToArray(_ref69, 2),
+        e = _ref70[1];
       return s + (e.scores[d.key] || 5);
     }, 0) / n;
     return /*#__PURE__*/React.createElement("div", {
@@ -3392,10 +4783,10 @@ function TabOverview(_ref44) {
       gap: 3,
       height: 70
     }
-  }, last14.map(function (_ref63) {
-    var _ref64 = _slicedToArray(_ref63, 2),
-      dt = _ref64[0],
-      e = _ref64[1];
+  }, last14.map(function (_ref71) {
+    var _ref72 = _slicedToArray(_ref71, 2),
+      dt = _ref72[0],
+      e = _ref72[1];
     return /*#__PURE__*/React.createElement("div", {
       key: dt,
       style: {
@@ -3453,14 +4844,14 @@ function TabOverview(_ref44) {
 }
 
 // ─── MORE ────────────────────────────────────────────────────────
-function TabMore(_ref65) {
-  var data = _ref65.data,
-    update = _ref65.update,
-    activeSite = _ref65.activeSite;
-  var _useState33 = useState("cases"),
-    _useState34 = _slicedToArray(_useState33, 2),
-    sub = _useState34[0],
-    setSub = _useState34[1];
+function TabMore(_ref73) {
+  var data = _ref73.data,
+    update = _ref73.update,
+    activeSite = _ref73.activeSite;
+  var _useState43 = useState("cases"),
+    _useState44 = _slicedToArray(_useState43, 2),
+    sub = _useState44[0],
+    setSub = _useState44[1];
   return /*#__PURE__*/React.createElement("div", {
     style: S.tab,
     className: "fi"
@@ -3471,10 +4862,10 @@ function TabMore(_ref65) {
       marginBottom: 14,
       overflowX: "auto"
     }
-  }, [["cases", "🩺 Cases"], ["drugs", "💊 ยา"], ["skills", "✅ Skills"], ["settings", "⚙️ ตั้งค่า"]].map(function (_ref66) {
-    var _ref67 = _slicedToArray(_ref66, 2),
-      k = _ref67[0],
-      l = _ref67[1];
+  }, [["cases", "🩺 Cases"], ["drugs", "💊 ยา"], ["skills", "✅ Skills"], ["settings", "⚙️ ตั้งค่า"]].map(function (_ref74) {
+    var _ref75 = _slicedToArray(_ref74, 2),
+      k = _ref75[0],
+      l = _ref75[1];
     return /*#__PURE__*/React.createElement(Chip, {
       key: k,
       on: sub === k,
@@ -3498,14 +4889,14 @@ function TabMore(_ref65) {
     update: update
   }));
 }
-function SecCases(_ref68) {
-  var data = _ref68.data,
-    update = _ref68.update,
-    activeSite = _ref68.activeSite;
-  var _useState35 = useState(null),
-    _useState36 = _slicedToArray(_useState35, 2),
-    form = _useState36[0],
-    setForm = _useState36[1];
+function SecCases(_ref76) {
+  var data = _ref76.data,
+    update = _ref76.update,
+    activeSite = _ref76.activeSite;
+  var _useState45 = useState(null),
+    _useState46 = _slicedToArray(_useState45, 2),
+    form = _useState46[0],
+    setForm = _useState46[1];
   var curSite = SITES.find(function (s) {
     return s.id === activeSite;
   });
@@ -3528,10 +4919,10 @@ function SecCases(_ref68) {
     sx: S.primBtn
   }, "+ \u0E40\u0E1E\u0E34\u0E48\u0E21 Case"), form && /*#__PURE__*/React.createElement(Card, {
     title: "\uD83E\uDE7A Case"
-  }, [["title", "Chief Complaint"], ["dx", "Diagnosis"], ["drugs", "ยาที่ใช้"], ["learned", "สิ่งที่เรียนรู้"]].map(function (_ref69) {
-    var _ref70 = _slicedToArray(_ref69, 2),
-      k = _ref70[0],
-      l = _ref70[1];
+  }, [["title", "Chief Complaint"], ["dx", "Diagnosis"], ["drugs", "ยาที่ใช้"], ["learned", "สิ่งที่เรียนรู้"]].map(function (_ref77) {
+    var _ref78 = _slicedToArray(_ref77, 2),
+      k = _ref78[0],
+      l = _ref78[1];
     return /*#__PURE__*/React.createElement(FL, {
       key: k,
       label: l
@@ -3642,18 +5033,18 @@ function SecCases(_ref68) {
     }, "\u0E25\u0E1A")));
   }));
 }
-function SecDrugs(_ref71) {
-  var data = _ref71.data,
-    update = _ref71.update,
-    activeSite = _ref71.activeSite;
-  var _useState37 = useState(null),
-    _useState38 = _slicedToArray(_useState37, 2),
-    form = _useState38[0],
-    setForm = _useState38[1];
-  var _useState39 = useState(""),
-    _useState40 = _slicedToArray(_useState39, 2),
-    q = _useState40[0],
-    setQ = _useState40[1];
+function SecDrugs(_ref79) {
+  var data = _ref79.data,
+    update = _ref79.update,
+    activeSite = _ref79.activeSite;
+  var _useState47 = useState(null),
+    _useState48 = _slicedToArray(_useState47, 2),
+    form = _useState48[0],
+    setForm = _useState48[1];
+  var _useState49 = useState(""),
+    _useState50 = _slicedToArray(_useState49, 2),
+    q = _useState50[0],
+    setQ = _useState50[1];
   var curSite = SITES.find(function (s) {
     return s.id === activeSite;
   });
@@ -3685,11 +5076,11 @@ function SecDrugs(_ref71) {
     })
   }), form && /*#__PURE__*/React.createElement(Card, {
     title: "\uD83D\uDC8A \u0E1A\u0E31\u0E19\u0E17\u0E36\u0E01\u0E22\u0E32"
-  }, [["name", "ชื่อยา", "Generic name"], ["class", "Drug class", "ACE inhibitor…"], ["indication", "Indication", ""], ["notes", "Notes / SE", ""]].map(function (_ref72) {
-    var _ref73 = _slicedToArray(_ref72, 3),
-      k = _ref73[0],
-      l = _ref73[1],
-      p = _ref73[2];
+  }, [["name", "ชื่อยา", "Generic name"], ["class", "Drug class", "ACE inhibitor…"], ["indication", "Indication", ""], ["notes", "Notes / SE", ""]].map(function (_ref80) {
+    var _ref81 = _slicedToArray(_ref80, 3),
+      k = _ref81[0],
+      l = _ref81[1],
+      p = _ref81[2];
     return /*#__PURE__*/React.createElement(FL, {
       key: k,
       label: l
@@ -3877,14 +5268,14 @@ var RUBRIC = [{
   label: "4 – ทำได้อิสระ",
   color: "#34D399"
 }];
-function SkillCard(_ref74) {
+function SkillCard(_ref82) {
   var _s$confidence;
-  var s = _ref74.s,
-    update = _ref74.update;
-  var _useState41 = useState(false),
-    _useState42 = _slicedToArray(_useState41, 2),
-    open = _useState42[0],
-    setOpen = _useState42[1];
+  var s = _ref82.s,
+    update = _ref82.update;
+  var _useState51 = useState(false),
+    _useState52 = _slicedToArray(_useState51, 2),
+    open = _useState52[0],
+    setOpen = _useState52[1];
   var conf = CONF[(_s$confidence = s.confidence) !== null && _s$confidence !== void 0 ? _s$confidence : 0];
   var upd = function upd(patch) {
     return update(function (d) {
@@ -4170,24 +5561,24 @@ function SkillCard(_ref74) {
     })
   })));
 }
-function SecSkills(_ref75) {
-  var data = _ref75.data,
-    update = _ref75.update;
-  var _useState43 = useState({
+function SecSkills(_ref83) {
+  var data = _ref83.data,
+    update = _ref83.update;
+  var _useState53 = useState({
       name: "",
       cat: ""
     }),
-    _useState44 = _slicedToArray(_useState43, 2),
-    ns = _useState44[0],
-    setNs = _useState44[1];
-  var _useState45 = useState(false),
-    _useState46 = _slicedToArray(_useState45, 2),
-    addOpen = _useState46[0],
-    setAddOpen = _useState46[1];
-  var _useState47 = useState("all"),
-    _useState48 = _slicedToArray(_useState47, 2),
-    filter = _useState48[0],
-    setFilter = _useState48[1]; // all | pending | done
+    _useState54 = _slicedToArray(_useState53, 2),
+    ns = _useState54[0],
+    setNs = _useState54[1];
+  var _useState55 = useState(false),
+    _useState56 = _slicedToArray(_useState55, 2),
+    addOpen = _useState56[0],
+    setAddOpen = _useState56[1];
+  var _useState57 = useState("all"),
+    _useState58 = _slicedToArray(_useState57, 2),
+    filter = _useState58[0],
+    setFilter = _useState58[1]; // all | pending | done
 
   var cats = _toConsumableArray(new Set(data.skills.map(function (s) {
     return s.cat;
@@ -4267,12 +5658,12 @@ function SecSkills(_ref75) {
       gap: 6,
       marginBottom: 4
     }
-  }, [["🟡", "พอรู้", confDist[0], "#FBBF24"], ["🟠", "ทำได้", confDist[1], "#F97316"], ["🟢", "ชำนาญ", confDist[2], "#34D399"]].map(function (_ref76) {
-    var _ref77 = _slicedToArray(_ref76, 4),
-      icon = _ref77[0],
-      l = _ref77[1],
-      n = _ref77[2],
-      c = _ref77[3];
+  }, [["🟡", "พอรู้", confDist[0], "#FBBF24"], ["🟠", "ทำได้", confDist[1], "#F97316"], ["🟢", "ชำนาญ", confDist[2], "#34D399"]].map(function (_ref84) {
+    var _ref85 = _slicedToArray(_ref84, 4),
+      icon = _ref85[0],
+      l = _ref85[1],
+      n = _ref85[2],
+      c = _ref85[3];
     return /*#__PURE__*/React.createElement("div", {
       key: l,
       style: {
@@ -4306,10 +5697,10 @@ function SecSkills(_ref75) {
       gap: 6,
       marginBottom: 12
     }
-  }, [["all", "ทั้งหมด"], ["pending", "ยังไม่ผ่าน"], ["done", "ผ่านแล้ว"]].map(function (_ref78) {
-    var _ref79 = _slicedToArray(_ref78, 2),
-      v = _ref79[0],
-      l = _ref79[1];
+  }, [["all", "ทั้งหมด"], ["pending", "ยังไม่ผ่าน"], ["done", "ผ่านแล้ว"]].map(function (_ref86) {
+    var _ref87 = _slicedToArray(_ref86, 2),
+      v = _ref87[0],
+      l = _ref87[1];
     return /*#__PURE__*/React.createElement("button", {
       key: v,
       onClick: function onClick() {
@@ -4435,19 +5826,19 @@ function fmtTHshort(dateStr) {
   var M = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
   return "".concat(d.getDate(), " ").concat(M[d.getMonth()]);
 }
-function SecSettings(_ref80) {
-  var data = _ref80.data,
-    update = _ref80.update;
-  var _useState49 = useState(data.settings),
-    _useState50 = _slicedToArray(_useState49, 2),
-    local = _useState50[0],
-    setLocal = _useState50[1];
+function SecSettings(_ref88) {
+  var data = _ref88.data,
+    update = _ref88.update;
+  var _useState59 = useState(data.settings),
+    _useState60 = _slicedToArray(_useState59, 2),
+    local = _useState60[0],
+    setLocal = _useState60[1];
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(Card, {
     title: "\u2699\uFE0F \u0E15\u0E31\u0E49\u0E07\u0E04\u0E48\u0E32"
-  }, [["name", "ชื่อของคุณ"], ["site", "แหล่งฝึกงาน"]].map(function (_ref81) {
-    var _ref82 = _slicedToArray(_ref81, 2),
-      k = _ref82[0],
-      l = _ref82[1];
+  }, [["name", "ชื่อของคุณ"], ["site", "แหล่งฝึกงาน"]].map(function (_ref89) {
+    var _ref90 = _slicedToArray(_ref89, 2),
+      k = _ref90[0],
+      l = _ref90[1];
     return /*#__PURE__*/React.createElement(FL, {
       key: k,
       label: l
@@ -4508,8 +5899,8 @@ function SecSettings(_ref80) {
 }
 
 // ─── SHARED UI ────────────────────────────────────────────────────
-function SiteBanner(_ref83) {
-  var site = _ref83.site;
+function SiteBanner(_ref91) {
+  var site = _ref91.site;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
@@ -4533,18 +5924,18 @@ function SiteBanner(_ref83) {
     }
   }, site.label));
 }
-function Card(_ref84) {
-  var title = _ref84.title,
-    children = _ref84.children;
+function Card(_ref92) {
+  var title = _ref92.title,
+    children = _ref92.children;
   return /*#__PURE__*/React.createElement("div", {
     style: S.card
   }, title && /*#__PURE__*/React.createElement("div", {
     style: S.cardT
   }, title), children);
 }
-function FL(_ref85) {
-  var label = _ref85.label,
-    children = _ref85.children;
+function FL(_ref93) {
+  var label = _ref93.label,
+    children = _ref93.children;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 10
@@ -4558,11 +5949,11 @@ function FL(_ref85) {
     }
   }, label), children);
 }
-function InRow(_ref86) {
-  var value = _ref86.value,
-    _onChange = _ref86.onChange,
-    ph = _ref86.ph,
-    onAdd = _ref86.onAdd;
+function InRow(_ref94) {
+  var value = _ref94.value,
+    _onChange = _ref94.onChange,
+    ph = _ref94.ph,
+    onAdd = _ref94.onAdd;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
@@ -4586,9 +5977,9 @@ function InRow(_ref86) {
     style: S.addBtn
   }, "+"));
 }
-function Row2(_ref87) {
-  var children = _ref87.children,
-    style = _ref87.style;
+function Row2(_ref95) {
+  var children = _ref95.children,
+    style = _ref95.style;
   return /*#__PURE__*/React.createElement("div", {
     style: _objectSpread({
       display: "flex",
@@ -4596,11 +5987,11 @@ function Row2(_ref87) {
     }, style)
   }, children);
 }
-function Chip(_ref88) {
-  var on = _ref88.on,
-    onClick = _ref88.onClick,
-    children = _ref88.children,
-    color = _ref88.color;
+function Chip(_ref96) {
+  var on = _ref96.on,
+    onClick = _ref96.onClick,
+    children = _ref96.children,
+    color = _ref96.color;
   var c = color || "#34D399";
   return /*#__PURE__*/React.createElement("button", {
     onClick: onClick,
@@ -4617,11 +6008,11 @@ function Chip(_ref88) {
     }
   }, children);
 }
-function MStat(_ref89) {
-  var icon = _ref89.icon,
-    label = _ref89.label,
-    val = _ref89.val,
-    color = _ref89.color;
+function MStat(_ref97) {
+  var icon = _ref97.icon,
+    label = _ref97.label,
+    val = _ref97.val,
+    color = _ref97.color;
   return /*#__PURE__*/React.createElement("div", {
     style: _objectSpread(_objectSpread({}, S.card), {}, {
       textAlign: "center",
@@ -4647,18 +6038,18 @@ function MStat(_ref89) {
     }
   }, label));
 }
-function QBadge(_ref90) {
-  var s = _ref90.s;
+function QBadge(_ref98) {
+  var s = _ref98.s;
   var MAP = {
     pending: ["⏳", "#FBBF24"],
     accepted: ["✅", "#34D399"],
     retry: ["🔄", "#60A5FA"],
     rejected: ["❌", "#F87171"]
   };
-  var _ref91 = MAP[s] || ["?", "#6B7280"],
-    _ref92 = _slicedToArray(_ref91, 2),
-    icon = _ref92[0],
-    c = _ref92[1];
+  var _ref99 = MAP[s] || ["?", "#6B7280"],
+    _ref100 = _slicedToArray(_ref99, 2),
+    icon = _ref100[0],
+    c = _ref100[1];
   return /*#__PURE__*/React.createElement("span", {
     style: {
       fontSize: 12,
@@ -4670,9 +6061,9 @@ function QBadge(_ref90) {
     }
   }, icon, " ", s);
 }
-function Badge(_ref93) {
-  var children = _ref93.children,
-    style = _ref93.style;
+function Badge(_ref101) {
+  var children = _ref101.children,
+    style = _ref101.style;
   return /*#__PURE__*/React.createElement("span", {
     style: _objectSpread({
       fontSize: 11,
@@ -4684,10 +6075,10 @@ function Badge(_ref93) {
     }, style)
   }, children);
 }
-function KV(_ref94) {
-  var k = _ref94.k,
-    v = _ref94.v,
-    color = _ref94.color;
+function KV(_ref102) {
+  var k = _ref102.k,
+    v = _ref102.v,
+    color = _ref102.color;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 5
@@ -4704,8 +6095,8 @@ function KV(_ref94) {
     }
   }, v));
 }
-function XBtn(_ref95) {
-  var onClick = _ref95.onClick;
+function XBtn(_ref103) {
+  var onClick = _ref103.onClick;
   return /*#__PURE__*/React.createElement("button", {
     onClick: onClick,
     style: {
@@ -4719,10 +6110,10 @@ function XBtn(_ref95) {
     }
   }, "\xD7");
 }
-function RedBtn(_ref96) {
-  var onClick = _ref96.onClick,
-    children = _ref96.children,
-    style = _ref96.style;
+function RedBtn(_ref104) {
+  var onClick = _ref104.onClick,
+    children = _ref104.children,
+    style = _ref104.style;
   return /*#__PURE__*/React.createElement("button", {
     onClick: onClick,
     style: _objectSpread({
@@ -4737,8 +6128,8 @@ function RedBtn(_ref96) {
     }, style)
   }, children);
 }
-function Muted(_ref97) {
-  var children = _ref97.children;
+function Muted(_ref105) {
+  var children = _ref105.children;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       color: "#2D3748",
@@ -4748,10 +6139,10 @@ function Muted(_ref97) {
     }
   }, children);
 }
-function Btn(_ref98) {
-  var onClick = _ref98.onClick,
-    sx = _ref98.sx,
-    children = _ref98.children;
+function Btn(_ref106) {
+  var onClick = _ref106.onClick,
+    sx = _ref106.sx,
+    children = _ref106.children;
   return /*#__PURE__*/React.createElement("button", {
     onClick: onClick,
     style: _objectSpread(_objectSpread({}, sx), {}, {
@@ -4923,7 +6314,6 @@ var S = {
   }
 };
 
-// Mount
 const rootEl = document.getElementById('root');
 const reactRoot = ReactDOM.createRoot(rootEl);
 reactRoot.render(React.createElement(App));
